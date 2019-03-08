@@ -1,20 +1,24 @@
 from qutebrowser.browser import urlmarks
-import collections
+from collections import OrderedDict
 
 
-class BukuRecordMap:
+class BukuRecordMap(OrderedDict):
     def __init__(self, buku):
-        self.entries = collections.OrderedDict()
+        super().__init__(self)
         self.buku = buku
 
+    def _fetch(self):
+        self.clear()
+        for entry in self.buku.get_rec_all():
+            self[entry[1]] = entry[2]
+
     def __getitem__(self, i):
-        return self.entries[i]
+        self._fetch()
+        return OrderedDict.__getitem__(self, i)
 
     def items(self):
-        self.entries = collections.OrderedDict()
-        for entry in self.buku.get_rec_all():
-            self.entries[entry[1]] = entry[2]
-        return self.entries.items()
+        self._fetch()
+        return OrderedDict.items(self)
 
 
 class BookmarkManager(urlmarks.UrlMarkManager):

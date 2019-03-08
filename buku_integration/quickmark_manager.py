@@ -17,7 +17,6 @@ class BukuRecordMap(OrderedDict):
         self.clear()
         #  self.entries = collections.OrderedDict()
         for entry in self.buku.search_by_tag("qutebrowser,quickmark"):
-            print(entry)
             self[entry[1]] = entry[2]
 
     def __getitem__(self, i):
@@ -30,7 +29,6 @@ class BukuRecordMap(OrderedDict):
 
     def items(self):
         self._fetch()
-        print(OrderedDict.items(self))
         return OrderedDict.items(self)
 
 
